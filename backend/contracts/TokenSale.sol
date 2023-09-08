@@ -25,6 +25,11 @@ contract TokenSale is Ownable {
         i_paymentToken.mint(msg.sender, amountToBeMinted); // in GroupFiveToken msg.sender will be the TokenSale contract itself
     }
 
+    function withdraw() external onlyOwner {
+        // TODO
+    }
+
+    // Not needed???
     // function returnTokens(uint256 amount) external {
     //     // burn amount from sender
     //     i_paymentToken.burnFrom(msg.sender, amount);
