@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
+import '@openzeppelin/contracts/access/Ownable.sol';
 import './GroupFiveToken.sol';
 import './GroupFiveCollection.sol';
 import './interfaces/IGroupFiveToken.sol';
 import './interfaces/IGroupFiveCollection.sol';
 
-contract TokenSale {
+contract TokenSale is Ownable {
     uint256 public ratio;
     uint256 public price;
     IGroupFiveToken public paymentToken;
