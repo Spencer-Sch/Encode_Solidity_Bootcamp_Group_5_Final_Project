@@ -2,6 +2,7 @@
     "name": "project",
     "packageManager": "yarn@3.6.1",
     "devDependencies": {
+        "@chainlink/contracts": "^0.6.1",
         "@nomicfoundation/hardhat-chai-matchers": "^2.0.1",
         "@nomicfoundation/hardhat-ethers": "^3.0.4",
         "@nomicfoundation/hardhat-network-helpers": "^1.0.8",
