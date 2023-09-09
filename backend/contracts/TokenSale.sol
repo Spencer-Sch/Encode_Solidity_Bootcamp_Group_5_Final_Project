@@ -10,8 +10,8 @@ import './interfaces/IGroupFiveCollection.sol';
 contract TokenSale is Ownable {
     uint256 public s_ratio;
     uint256 public s_price;
-    IGroupFiveToken public i_paymentToken;
-    IGroupFiveCollection public i_nftContract;
+    IGroupFiveToken private immutable i_paymentToken;
+    IGroupFiveCollection private immutable i_nftContract;
 
     constructor(uint256 _ratio, uint256 _price, address _paymentToken, address _nftContract) {
         s_ratio = _ratio;
