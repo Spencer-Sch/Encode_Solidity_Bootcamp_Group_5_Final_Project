@@ -76,7 +76,7 @@ contract GroupFiveCollection is VRFConsumerBaseV2, ERC721URIStorage, AccessContr
      * @return requestId - A unique identifier of the request. Can be used to match
      * a request to a response in fulfillRandomWords.
      */
-    function requestNft() public returns (uint256 requestId) {
+    function requestNft() public returns (uint256 requestId) onlyRole(MINTER_ROLE) {
         requestId = i_vrfCoordinator.requestRandomWords(
             i_gasLane,
             i_subscriptionId,
