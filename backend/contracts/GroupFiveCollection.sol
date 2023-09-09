@@ -103,6 +103,7 @@ contract GroupFiveCollection is VRFConsumerBaseV2, ERC721URIStorage, AccessContr
         uint256 requestId,
         uint256[] memory randomWords
     ) internal override {
+        // Is this function secure? Can it be called from the outside and exployted?
         address nftOwner = s_requestIdToSender[requestId];
         uint256 newTokenId = s_tokenCounter;
         s_tokenCounter = s_tokenCounter + 1;
