@@ -68,10 +68,6 @@ contract GroupFiveCollection is VRFConsumerBaseV2, ERC721URIStorage, AccessContr
         s_initialized = true;
     }
 
-    function safeMint(address to, uint256 tokenId) public onlyRole(MINTER_ROLE) {
-        _safeMint(to, tokenId);
-    }
-
     /**
      * @notice Takes your specified parameters and submits the request to the VRF coordinator contract for a random value.
      * @dev Maps the returned `requestId` to the address of `msg.sender`.
