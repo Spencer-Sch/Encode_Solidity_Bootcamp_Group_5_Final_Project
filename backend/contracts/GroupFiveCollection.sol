@@ -10,7 +10,6 @@ import '@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol';
 
 error GroupFiveCollection__AlreadyInitialized();
 error GroupFiveCollection__RangeOutOfBounds();
-error GroupFiveCollection__TransferFailed();
 
 contract GroupFiveCollection is VRFConsumerBaseV2, ERC721URIStorage, AccessControl {
     // Chainlink VRF Variables
