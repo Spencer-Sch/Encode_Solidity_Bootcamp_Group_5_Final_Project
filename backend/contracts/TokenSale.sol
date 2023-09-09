@@ -31,6 +31,9 @@ contract TokenSale is Ownable {
 
     function withdraw() external onlyOwner {
         // TODO
+        // need one withdraw for ETH and one for GFT?
+        // or use the same for both?
+        // add to interface
     }
 
     // Not needed???
