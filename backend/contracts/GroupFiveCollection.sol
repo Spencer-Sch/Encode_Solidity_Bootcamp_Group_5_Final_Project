@@ -30,7 +30,6 @@ contract GroupFiveCollection is VRFConsumerBaseV2, ERC721URIStorage, AccessContr
     // NFT Variables
     uint256[5] private POWER_LEVELS = [5, 4, 3, 2, 1];
     uint256 internal constant MAX_CHANCE_VALUE = 100;
-    uint256 private immutable i_mintFee;
     uint256 private s_tokenCounter;
     string[] internal s_nftUris;
     bool private s_initialized;
@@ -46,14 +45,12 @@ contract GroupFiveCollection is VRFConsumerBaseV2, ERC721URIStorage, AccessContr
         address vrfCoordinatorV2,
         uint64 subscriptionId,
         bytes32 gasLane,
-        uint256 mintFee,
         uint32 callbackGasLimit,
         string[5] memory nftUris
     ) VRFConsumerBaseV2(vrfCoordinatorV2) ERC721('GroupFiveCollection', 'GFC') {
         // Chainlink VRF constructor args
         i_vrfCoordinator = VRFCoordinatorV2Interface(vrfCoordinatorV2);
         i_subscriptionId = subscriptionId;
-        i_mintFee = mintFee;
         i_gasLane = gasLane;
         i_callbackGasLimit = callbackGasLimit;
         _initializeContract(nftUris);
