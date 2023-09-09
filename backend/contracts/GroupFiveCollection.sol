@@ -9,7 +9,6 @@ import '@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol';
 import '@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol';
 
 error GroupFiveCollection__AlreadyInitialized();
-error GroupFiveCollection__NeedMoreETHSent();
 error GroupFiveCollection__RangeOutOfBounds();
 error GroupFiveCollection__TransferFailed();
 
