@@ -74,7 +74,7 @@ contract GroupFiveCollection is VRFConsumerBaseV2, ERC721URIStorage, AccessContr
      * @return requestId - A unique identifier of the request. Can be used to match
      * a request to a response in fulfillRandomWords.
      */
-    function requestNft() public returns (uint256 requestId) onlyRole(MINTER_ROLE) {
+    function requestNft() public onlyRole(MINTER_ROLE) returns (uint256 requestId) {
         requestId = i_vrfCoordinator.requestRandomWords(
             i_gasLane,
             i_subscriptionId,
@@ -108,7 +108,7 @@ contract GroupFiveCollection is VRFConsumerBaseV2, ERC721URIStorage, AccessContr
         uint256 moddedRng = randomWords[0] % MAX_CHANCE_VALUE;
         uint256 powerLevel = getPowerFromModdedRng(moddedRng);
         _safeMint(nftOwner, newTokenId);
-        _setTokenURI(newItemId, s_nftUris[powerLevel - 1]);
+        _setTokenURI(newTokenId, s_nftUris[powerLevel - 1]);
         emit NftMinted(powerLevel, nftOwner);
     }
 
@@ -152,7 +152,7 @@ contract GroupFiveCollection is VRFConsumerBaseV2, ERC721URIStorage, AccessContr
 
     function supportsInterface(
         bytes4 interfaceId
-    ) public view override(ERC721, AccessControl) returns (bool) {
+    ) public view override(ERC721URIStorage, AccessControl) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
 }

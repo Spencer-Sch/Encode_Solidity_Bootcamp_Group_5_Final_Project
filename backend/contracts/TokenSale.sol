@@ -47,12 +47,12 @@ contract TokenSale is Ownable {
     function mintNft() external {
         // transfer payment of GFT from sender to TokenSale contract
         i_paymentToken.transferFrom(msg.sender, address(this), s_nftPrice);
-        (bool success, ) = i_paymentToken.transferFrom(msg.sender, address(this), s_nftPrice);
+        bool success = i_paymentToken.transferFrom(msg.sender, address(this), s_nftPrice);
         if (!success) {
             revert TokenSale__NftPaymentTransferFailed();
         }
         emit NftPaymentTransferSuccessful(msg.sender, address(this), s_nftPrice);
         // mint nft
-        i_nftContract.requestNft()
+        i_nftContract.requestNft();
     }
 }
