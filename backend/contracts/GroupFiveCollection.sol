@@ -136,7 +136,17 @@ contract GroupFiveCollection is VRFConsumerBaseV2, ERC721URIStorage, AccessContr
         revert GroupFiveCollection__RangeOutOfBounds();
     }
 
-    function tokenURI(uint256 something) public view override returns (string memory) {}
+    function getNftUris(uint256 index) public view returns (string memory) {
+        return s_nftUris[index];
+    }
+
+    function getInitialized() public view returns (bool) {
+        return s_initialized;
+    }
+
+    function getTokenCounter() public view returns (uint256) {
+        return s_tokenCounter;
+    }
 
     // The following functions are overrides required by Solidity.
 
