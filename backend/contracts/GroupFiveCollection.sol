@@ -3,7 +3,7 @@ pragma solidity ^0.8.9;
 
 // Spencer note: restart dev at 21:19:07 of Patrick Collins video
 
-import '@openzeppelin\contracts\token\ERC721\extensions\ERC721URIStorage.sol';
+import '@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol';
 import '@openzeppelin/contracts/access/AccessControl.sol';
 import '@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol';
 import '@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol';
