@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-// Spencer note: restart dev at 21:19:07 of Patrick Collins video
-
 import '@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol';
 import '@openzeppelin/contracts/access/AccessControl.sol';
 import '@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol';
@@ -74,7 +72,7 @@ contract GroupFiveCollection is VRFConsumerBaseV2, ERC721URIStorage, AccessContr
      * @return requestId - A unique identifier of the request. Can be used to match
      * a request to a response in fulfillRandomWords.
      */
-    function requestNft() public onlyRole(MINTER_ROLE) returns (uint256 requestId) {
+    function requestNft() external onlyRole(MINTER_ROLE) returns (uint256 requestId) {
         requestId = i_vrfCoordinator.requestRandomWords(
             i_gasLane,
             i_subscriptionId,
@@ -115,11 +113,11 @@ contract GroupFiveCollection is VRFConsumerBaseV2, ERC721URIStorage, AccessContr
     /**
      * @notice Returns percent chance of
      */
-    function getChanceArray() public pure returns (uint256[5] memory) {
+    function getChanceArray() internal pure returns (uint256[5] memory) {
         return [5, 15, 30, 50, MAX_CHANCE_VALUE];
     }
 
-    function getPowerFromModdedRng(uint256 moddedRng) public view returns (uint256) {
+    function getPowerFromModdedRng(uint256 moddedRng) internal view returns (uint256) {
         uint256 cumulativeSum = 0;
         uint256[5] memory chanceArray = getChanceArray();
         for (uint256 i = 0; i < chanceArray.length; i++) {
