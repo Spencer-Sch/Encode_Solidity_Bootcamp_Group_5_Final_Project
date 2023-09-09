@@ -2,5 +2,7 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 interface ITokenSale {
+    function buyTokens() external payable;
+
     function mintNft(uint256 nftId) external;
 }
