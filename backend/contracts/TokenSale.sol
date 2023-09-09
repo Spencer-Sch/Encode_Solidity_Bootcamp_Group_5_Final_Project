@@ -7,15 +7,19 @@ import './GroupFiveCollection.sol';
 import './interfaces/IGroupFiveToken.sol';
 import './interfaces/IGroupFiveCollection.sol';
 
+error TokenSale__NftPaymentTransferFailed();
+
 contract TokenSale is Ownable {
     uint256 public s_ratio;
-    uint256 public s_price;
+    uint256 public s_nftPrice;
     IGroupFiveToken private immutable i_paymentToken;
     IGroupFiveCollection private immutable i_nftContract;
 
+    event NftPaymentTransferSuccessful(address from, address to, uint256 amount);
+
     constructor(uint256 _ratio, uint256 _price, address _paymentToken, address _nftContract) {
         s_ratio = _ratio;
-        s_price = _price;
+        s_nftPrice = _price;
         i_paymentToken = IGroupFiveToken(_paymentToken); // this makes i_paymentToken an interface
         i_nftContract = IGroupFiveCollection(_nftContract); // this makes i_nftContract an interface
     }
@@ -39,7 +43,12 @@ contract TokenSale is Ownable {
 
     function mintNft() external {
         // transfer payment of GFT from sender to TokenSale contract
-        i_paymentToken.transferFrom(msg.sender, address(this), s_price);
+        i_paymentToken.transferFrom(msg.sender, address(this), s_nftPrice);
+        (bool success, ) = i_paymentToken.transferFrom(msg.sender, address(this), s_nftPrice);
+        if (!success) {
+            revert TokenSale__NftPaymentTransferFailed();
+        }
+        emit NftPaymentTransferSuccessful(msg.sender, address(this), s_nftPrice);
         // mint nft
         i_nftContract.requestNft()
     }
