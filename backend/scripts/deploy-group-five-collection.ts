@@ -44,6 +44,7 @@ const deployGFCollection = async function () {
     const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? '', provider)
 
     log('-'.repeat(process.stdout.columns))
+    log('Deploying GroupFiveCollection contract...')
 
     const groupFiveCollectionFactory = new GroupFiveCollection__factory(wallet)
     const groupFiveCollection = await groupFiveCollectionFactory.deploy(
@@ -56,6 +57,9 @@ const deployGFCollection = async function () {
     await groupFiveCollection.waitForDeployment()
     const groupFiveCollectionAddress = await groupFiveCollection.getAddress()
 
+    log(`GroupFiveCollection contract deployed at address: ${groupFiveCollectionAddress}`)
+    log('-'.repeat(process.stdout.columns))
+
     // Verify the deployment
     if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
         log('Verifying...')
@@ -66,6 +70,7 @@ const deployGFCollection = async function () {
             networkConfig[chainId]['callbackGasLimit'] ?? '',
             tokenUris,
         ])
+        log('Verifying complete')
     }
 }
 
