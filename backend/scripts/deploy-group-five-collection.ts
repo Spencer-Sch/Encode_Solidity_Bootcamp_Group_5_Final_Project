@@ -1,10 +1,5 @@
-import {
-    developmentChains,
-    VERIFICATION_BLOCK_CONFIRMATIONS,
-    networkConfig,
-} from '../helper-hardhat-config'
-import verify from '../utils/verify'
-import { network } from 'hardhat'
+import { networkConfig } from '../helper-hardhat-config'
+// import verify from '../utils/verify'
 import { ethers } from 'ethers'
 import { log } from 'console'
 import * as dotenv from 'dotenv'
@@ -27,18 +22,8 @@ function setupProvider() {
 }
 
 const deployGFCollection = async function () {
-    const chainId = network.config.chainId!
-    if (chainId !== 11155111) {
-        log('Only setup to deploy to Sepolia testnet. Abort')
-        return
-    }
-
-    const vrfCoordinatorV2Address = networkConfig[chainId].vrfCoordinatorV2
-    const subscriptionId = networkConfig[chainId].subscriptionId
-
-    const waitBlockConfirmations = developmentChains.includes(network.name)
-        ? 1
-        : VERIFICATION_BLOCK_CONFIRMATIONS
+    const vrfCoordinatorV2Address = networkConfig[11155111].vrfCoordinatorV2
+    const subscriptionId = networkConfig[11155111].subscriptionId
 
     const provider = setupProvider()
     const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? '', provider)
@@ -50,8 +35,8 @@ const deployGFCollection = async function () {
     const groupFiveCollection = await groupFiveCollectionFactory.deploy(
         vrfCoordinatorV2Address ?? '',
         subscriptionId ?? '',
-        networkConfig[chainId]['gasLane'] ?? '',
-        networkConfig[chainId]['callbackGasLimit'] ?? '',
+        networkConfig[11155111]['gasLane'] ?? '',
+        networkConfig[11155111]['callbackGasLimit'] ?? '',
         tokenUris
     )
     await groupFiveCollection.waitForDeployment()
@@ -61,17 +46,16 @@ const deployGFCollection = async function () {
     log('-'.repeat(process.stdout.columns))
 
     // Verify the deployment
-    if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
-        log('Verifying...')
-        await verify(groupFiveCollectionAddress, [
-            vrfCoordinatorV2Address ?? '',
-            subscriptionId ?? '',
-            networkConfig[chainId]['gasLane'] ?? '',
-            networkConfig[chainId]['callbackGasLimit'] ?? '',
-            tokenUris,
-        ])
-        log('Verifying complete')
-    }
+    // DOESN'T WORK...
+    // log('Verifying...')
+    // await verify(groupFiveCollectionAddress, [
+    //     vrfCoordinatorV2Address ?? '',
+    //     subscriptionId ?? '',
+    //     networkConfig[11155111]['gasLane'] ?? '',
+    //     networkConfig[11155111]['callbackGasLimit'] ?? '',
+    //     tokenUris,
+    // ])
+    // log('Verifying complete')
 }
 
 deployGFCollection()
