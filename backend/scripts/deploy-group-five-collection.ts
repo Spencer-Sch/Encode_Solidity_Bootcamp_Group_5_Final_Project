@@ -8,12 +8,13 @@ dotenv.config()
 
 type tokenUriArray = [string, string, string, string, string]
 
+// Metadata URIs by Power rating
 let tokenUris: tokenUriArray = [
-    'ipfs://Qmdt627br4rCUdFTqT7hdtEmGUbfXpFgWUXG1AmpGb6cJq', // 1
-    'ipfs://QmcXa71yJEzmBnnQzahzeujgQYUCNDeL18GfkTd3eZ3UgX', // 2
-    'ipfs://QmSmF8ejUqeH2BkaSHg4wbdFpyUYYvEChKWy6StFT6ZoM5', // 3
-    'ipfs://Qmbxxh9bSeg1fQi3JqXzX2Nne2b7sgCUWrsxVTwEwTn1hF', // 4
-    'ipfs://QmarTghf1Cz6LvLMVwrihaKHovTDjdmEbsTEFMnTjSn1ya', // 5
+    'ipfs://QmPtoPawFgzZtE26W1cVZXDPJ3LkZ88SfRn4R85Z64r4xH', // 1 - Scarecrow
+    'ipfs://QmUaty9Lz7ugjTmyWoWxQQ4r5X3DRrYohqs3YjCXPBfNmL', // 2 - Squire
+    'ipfs://QmZXZDRQKoi1qRrATAgb4xEdYJf3syDVgKUr8NTidccCsT', // 3 - Knight
+    'ipfs://QmXju5Wboutq6LzzMdLkecYpBoimbBvvSaPGiSamFzuPkP', // 4 - Werewolf
+    'ipfs://QmS6CsnNepVmXgHaznkzQiq3MMRHvYYnay2koLUWJnwgYg', // 5 - Dragon
 ]
 
 function setupProvider() {
