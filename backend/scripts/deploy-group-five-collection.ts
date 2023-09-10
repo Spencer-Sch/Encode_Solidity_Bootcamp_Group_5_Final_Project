@@ -1,5 +1,6 @@
 import { networkConfig } from '../helper-hardhat-config'
-// import verify from '../utils/verify'
+import { network } from 'hardhat'
+import verify from '../utils/verify'
 import { ethers } from 'ethers'
 import { log } from 'console'
 import * as dotenv from 'dotenv'
@@ -23,8 +24,10 @@ function setupProvider() {
 }
 
 const deployGFCollection = async function () {
-    const vrfCoordinatorV2Address = networkConfig[11155111].vrfCoordinatorV2
-    const subscriptionId = networkConfig[11155111].subscriptionId
+    const chainId = network.config.chainId!
+    log('chainId: ', chainId)
+    const vrfCoordinatorV2Address = networkConfig[chainId].vrfCoordinatorV2
+    const subscriptionId = networkConfig[chainId].subscriptionId
 
     const provider = setupProvider()
     const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? '', provider)
@@ -36,8 +39,8 @@ const deployGFCollection = async function () {
     const groupFiveCollection = await groupFiveCollectionFactory.deploy(
         vrfCoordinatorV2Address ?? '',
         subscriptionId ?? '',
-        networkConfig[11155111]['gasLane'] ?? '',
-        networkConfig[11155111]['callbackGasLimit'] ?? '',
+        networkConfig[chainId]['gasLane'] ?? '',
+        networkConfig[chainId]['callbackGasLimit'] ?? '',
         tokenUris
     )
     await groupFiveCollection.waitForDeployment()
