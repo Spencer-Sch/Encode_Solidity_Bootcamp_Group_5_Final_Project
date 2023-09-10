@@ -61,16 +61,15 @@ const deployGFCollection = async function () {
     log('-'.repeat(process.stdout.columns))
 
     // Verify the deployment
-    // DOESN'T WORK...
-    // log('Verifying...')
-    // await verify(groupFiveCollectionAddress, [
-    //     vrfCoordinatorV2Address ?? '',
-    //     subscriptionId ?? '',
-    //     networkConfig[11155111]['gasLane'] ?? '',
-    //     networkConfig[11155111]['callbackGasLimit'] ?? '',
-    //     tokenUris,
-    // ])
-    // log('Verifying complete')
+    log('Verifying...')
+    await verify(groupFiveCollectionAddress, [
+        vrfCoordinatorV2Address ?? '',
+        subscriptionId ?? '',
+        networkConfig[chainId]['gasLane'] ?? '',
+        networkConfig[chainId]['callbackGasLimit'] ?? '',
+        tokenUris,
+    ])
+    log('Verifying complete')
 }
 
 deployGFCollection()
