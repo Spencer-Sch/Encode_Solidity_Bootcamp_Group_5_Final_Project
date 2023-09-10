@@ -7,6 +7,17 @@ import * as dotenv from 'dotenv'
 import { GroupFiveCollection__factory } from '../typechain-types'
 dotenv.config()
 
+/*
+NOTICE:
+After deploying a new Group Five Collection contract you need to add that new contract as a consumer
+in your vrf subscription!
+*/
+
+// yarn hardhat run ./scripts/deploy-group-five-collection.ts --network sepolia
+
+// if scripts moved into `deploy` dir:
+// yarn hardhat deploy --network sepolia --tags group-five-collection
+
 type tokenUriArray = [string, string, string, string, string]
 
 // Metadata URIs by Power rating
