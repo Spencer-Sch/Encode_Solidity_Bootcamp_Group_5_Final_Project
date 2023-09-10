@@ -4,7 +4,6 @@ import {
     VERIFICATION_BLOCK_CONFIRMATIONS,
     networkConfig,
 } from '../helper-hardhat-config'
-import { storeTokenUriMetadata } from '../utils/uploadToPinata'
 import { ethers, network } from 'hardhat'
 import { log } from 'console'
 import * as dotenv from 'dotenv'
@@ -25,26 +24,9 @@ let tokenUris: tokenUriArray = [
     'ipfs://QmS6CsnNepVmXgHaznkzQiq3MMRHvYYnay2koLUWJnwgYg', // 5 - Dragon
 ]
 
-const metadataTemplate = {
-    name: 'GFC Encode Battle NFT',
-    description:
-        'An NFT from the Group Five Collection (GFC) that can be used in the Encode Battle game in order to earn GFT.',
-    image: '',
-    attributes: [
-        {
-            trait_type: 'Power',
-            value: 0,
-        },
-    ],
-}
-
 const deployGFCollection = async function () {
     const chainId = network.config.chainId!
     let vrfCoordinatorV2Address, subscriptionId
-
-    if (process.env.UPLOAD_TO_PINATA == 'true') {
-        tokenUris = await handleTokenUris()
-    }
 
     if (chainId == 31337) {
         log('Local network detected! Deploying mocks...')
@@ -96,22 +78,6 @@ const deployGFCollection = async function () {
         tokenUris
     )
     await groupFiveCollectionContract.waitForDeployment()
-}
-
-async function handleTokenUris() {
-    // to the raw IPFS-daemon from https://docs.ipfs.io/how-to/command-line-quick-start/
-    // You could also look at pinata https://www.pinata.cloud/
-    let tokenUris_: tokenUriArray = ['', '', '', '', '']
-    for (let i = 1; i <= POWER_LEVEL_VARIANTS; i++) {
-        let tokenUriMetadata = { ...metadataTemplate }
-        tokenUriMetadata.attributes[0].value = i
-        console.log(`Uploading metadata for power level ${i}...`)
-        const metadataUploadResponse = await storeTokenUriMetadata(tokenUriMetadata)
-        tokenUris_[i - 1] = `ipfs://${metadataUploadResponse!.IpfsHash}`
-    }
-    console.log('Token URIs uploaded! They are:')
-    console.log(tokenUris_)
-    return tokenUris_
 }
 
 deployGFCollection()
