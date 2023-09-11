@@ -32,7 +32,7 @@ contract GroupFiveCollection is VRFConsumerBaseV2, ERC721URIStorage, AccessContr
 
     // Events
     event NftRequested(uint256 indexed requestId, address requester);
-    event NftMinted(uint256 powerLevel, address minter);
+    event NftMinted(uint256 powerLevel, address owner, uint256 tokenId);
 
     // Contract Variables
     bytes32 public constant MINTER_ROLE = keccak256('MINTER_ROLE');
@@ -109,7 +109,7 @@ contract GroupFiveCollection is VRFConsumerBaseV2, ERC721URIStorage, AccessContr
         uint256 powerLevel = getPowerFromModdedRng(moddedRng);
         _safeMint(nftOwner, newTokenId);
         _setTokenURI(newTokenId, s_nftUris[powerLevel - 1]);
-        emit NftMinted(powerLevel, nftOwner);
+        emit NftMinted(powerLevel, nftOwner, newTokenId);
     }
 
     /**
