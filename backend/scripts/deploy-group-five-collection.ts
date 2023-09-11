@@ -54,7 +54,8 @@ const deployGFCollection = async function () {
         networkConfig[chainId]['callbackGasLimit'] ?? '',
         tokenUris
     )
-    await groupFiveCollection.waitForDeployment()
+    groupFiveCollection.waitForDeployment()
+    await groupFiveCollection.deploymentTransaction()?.wait(5)
     const groupFiveCollectionAddress = await groupFiveCollection.getAddress()
 
     log(`GroupFiveCollection contract deployed at address: ${groupFiveCollectionAddress}`)
