@@ -8,6 +8,7 @@ import './interfaces/IGroupFiveToken.sol';
 import './interfaces/IGroupFiveCollection.sol';
 
 error TokenSale__NftPaymentTransferFailed();
+error TokenSale__WithdrawTransferFailed();
 
 contract TokenSale is Ownable {
     uint256 public s_ratio;
