@@ -69,7 +69,15 @@ contract TokenSale is Ownable {
 
     function mintNft() external {
         // QUESTION: burn spent GFT?
-        bool success = i_paymentToken.transferFrom(msg.sender, address(this), s_nftPrice);
+        // Approve TokenSale contract to transfer GFT as payment for nft
+        bool approveSuccess = _approveForGFT(msg.sender, address(this), s_nftPrice);
+        if (!approveSuccess) {
+            revert TokenSale__approveForGFTFailed();
+        }
+        emit TokenSaleApprovedForGFT(msg.sender, address(this), s_nftPrice);
+
+        // transfer payment of GFT from sender to TokenSale contract
+        bool success = i_paymentToken.transferGFT(msg.sender, address(this), s_nftPrice);
         if (!success) {
             revert TokenSale__transferGFTFailed();
         }
