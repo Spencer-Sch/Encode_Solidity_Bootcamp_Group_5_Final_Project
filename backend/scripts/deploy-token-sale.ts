@@ -7,7 +7,7 @@ dotenv.config()
 
 // yarn hardhat run ./scripts/deploy-token-sale.ts --network sepolia
 
-const RFT_RATIO = 10n
+const RFT_RATIO = 100n
 const NFT_PRICE = ethers.parseUnits('0.5')
 const GFT_Address = process.env.GROUP_FIVE_TOKEN ?? ''
 const GFC_Address = process.env.GROUP_FIVE_COLLECTION ?? ''
