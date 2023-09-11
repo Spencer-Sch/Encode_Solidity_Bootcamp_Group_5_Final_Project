@@ -31,10 +31,12 @@ contract TokenSale is Ownable {
     }
 
     function withdraw() external onlyOwner {
-        // TODO
-        // need one withdraw for ETH and one for GFT?
-        // or use the same for both?
-        // add to interface
+        // specifically for ETH in contract
+        uint256 amount = address(this).balance;
+        (bool success, ) = payable(msg.sender).call{value: amount}('');
+        if (!success) {
+            revert TokenSale__WithdrawTransferFailed();
+        }
     }
 
     // Not needed???
