@@ -45,6 +45,28 @@ contract TokenSale is Ownable {
         }
     }
 
+    function _approveForGFT(
+        address owner,
+        address spender,
+        uint256 amount
+    ) internal returns (bool) {
+        if (spender != address(this)) {
+            revert TokenSale__tryingToAllowInvalidSpender();
+        }
+        if (amount != s_nftPrice) {
+            revert TokenSale__tryingToAllowInvalidAmount();
+        }
+        i_paymentToken._approveForGFT_(owner, spender, amount);
+        return true;
+    }
+
+    // function approveTokenSale() external {
+    //     bool approveSuccess = _approveForGFT(msg.sender, address(this), s_nftPrice);
+    //     if (!approveSuccess) {
+    //         revert TokenSale__approveTokenSaleFailed();
+    //     }
+    // }
+
     function mintNft() external {
         // transfer payment of GFT from sender to TokenSale contract
         // QUESTION: will this require TokenSale to be given allowance to alter msg.sender's balance of GFT???
