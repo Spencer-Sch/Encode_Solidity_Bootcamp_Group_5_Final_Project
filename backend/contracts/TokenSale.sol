@@ -22,6 +22,7 @@ contract TokenSale is Ownable {
     IGroupFiveCollection private immutable i_nftContract;
 
     event NftPaymentTransferSuccessful(address from, address to, uint256 amount);
+    event TokenSaleApprovedForGFT(address owner, address spender, uint256 amount);
 
     constructor(uint256 _ratio, uint256 _price, address _paymentToken, address _nftContract) {
         s_ratio = _ratio;
