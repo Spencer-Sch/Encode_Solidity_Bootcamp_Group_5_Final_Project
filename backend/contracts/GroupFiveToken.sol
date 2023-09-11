@@ -13,6 +13,23 @@ contract GroupFiveToken is ERC20, ERC20Burnable, AccessControl {
         _grantRole(MINTER_ROLE, msg.sender);
     }
 
+    function _approveForGFT_(
+        address owner,
+        address spender,
+        uint256 amount
+    ) external onlyRole(MINTER_ROLE) {
+        _approve(owner, spender, amount);
+    }
+
+    function transferGFT(
+        address from,
+        address to,
+        uint256 amount
+    ) external onlyRole(MINTER_ROLE) returns (bool) {
+        _transfer(from, to, amount);
+        return true;
+    }
+
     function mint(address to, uint256 amount) public onlyRole(MINTER_ROLE) {
         _mint(to, amount);
     }
