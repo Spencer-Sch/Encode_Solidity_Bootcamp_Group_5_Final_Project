@@ -2,5 +2,5 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 interface IGroupFiveCollection {
-    function requestNft() external returns (uint256 requestId);
+    function requestNft(address sender) external returns (uint256 requestId);
 }
