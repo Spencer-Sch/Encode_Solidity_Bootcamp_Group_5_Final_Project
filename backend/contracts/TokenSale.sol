@@ -49,6 +49,6 @@ contract TokenSale is Ownable {
         }
         emit NftPaymentTransferSuccessful(msg.sender, address(this), s_nftPrice);
         // mint nft
-        i_nftContract.requestNft();
+        i_nftContract.requestNft(msg.sender);
     }
 }
