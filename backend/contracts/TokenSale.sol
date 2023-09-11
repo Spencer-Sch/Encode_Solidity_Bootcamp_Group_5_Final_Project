@@ -39,14 +39,6 @@ contract TokenSale is Ownable {
         }
     }
 
-    // Not needed???
-    // function returnTokens(uint256 amount) external {
-    //     // burn amount from sender
-    //     i_paymentToken.burnFrom(msg.sender, amount);
-    //     // transfer eth to sender
-    //     payable(msg.sender).transfer(amount / ratio);
-    // }
-
     function mintNft() external {
         // transfer payment of GFT from sender to TokenSale contract
         i_paymentToken.transferFrom(msg.sender, address(this), s_nftPrice);
