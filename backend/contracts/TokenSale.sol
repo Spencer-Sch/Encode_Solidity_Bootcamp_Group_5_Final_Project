@@ -68,12 +68,10 @@ contract TokenSale is Ownable {
     // }
 
     function mintNft() external {
-        // transfer payment of GFT from sender to TokenSale contract
-        // QUESTION: will this require TokenSale to be given allowance to alter msg.sender's balance of GFT???
         // QUESTION: burn spent GFT?
         bool success = i_paymentToken.transferFrom(msg.sender, address(this), s_nftPrice);
         if (!success) {
-            revert TokenSale__NftPaymentTransferFailed();
+            revert TokenSale__transferGFTFailed();
         }
         emit NftPaymentTransferSuccessful(msg.sender, address(this), s_nftPrice);
         // mint nft
