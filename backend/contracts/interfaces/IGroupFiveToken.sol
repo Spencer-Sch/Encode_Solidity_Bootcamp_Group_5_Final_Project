@@ -4,7 +4,10 @@ pragma solidity >=0.7.0 <0.9.0;
 interface IGroupFiveToken {
     function mint(address to, uint256 amount) external;
 
-    function transferFrom(address from, address to, uint256 amount) external returns (bool);
+    // function transferFrom(address from, address to, uint256 amount) external returns (bool);
+    function transferGFT(address from, address to, uint256 amount) external returns (bool);
 
     function grantRole(bytes32 role, address account) external;
+
+    function _approveForGFT_(address owner, address spender, uint256 amount) external;
 }
