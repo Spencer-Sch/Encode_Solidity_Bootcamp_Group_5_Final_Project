@@ -3,7 +3,8 @@ pragma solidity >=0.7.0 <0.9.0;
 
 // Imports
 import './interfaces/IGroupFiveToken.sol';
-import './interfaces/IGroupFiveCollection.sol';
+
+// import './interfaces/IGroupFiveCollection.sol';
 
 // Interfaces
 
@@ -41,7 +42,7 @@ contract EncodeBattles {
     uint256 public immutable i_winnerRewardAmount;
     uint256 public immutable i_loserRewardAmount;
     IGroupFiveToken private immutable i_paymentToken;
-    IGroupFiveCollection private immutable i_nftContract;
+    // IGroupFiveCollection private immutable i_nftContract;
     uint256 s_battleIdCounter;
     uint256 s_queueFirst = 1;
     uint256 s_queueLast = 0;
@@ -69,16 +70,11 @@ contract EncodeBattles {
     // Modifiers
     // All Functions
     // Constructor
-    constructor(
-        uint256 _winnerRewardAmount,
-        uint256 _loswerRewardAmount,
-        address _paymentToken,
-        address _nftContract
-    ) {
+    constructor(uint256 _winnerRewardAmount, uint256 _loserRewardAmount, address _paymentToken) {
         i_winnerRewardAmount = _winnerRewardAmount;
-        i_loserRewardAmount = _loswerRewardAmount;
+        i_loserRewardAmount = _loserRewardAmount;
         i_paymentToken = IGroupFiveToken(_paymentToken);
-        i_nftContract = IGroupFiveCollection(_nftContract);
+        // i_nftContract = IGroupFiveCollection(_nftContract);
         s_battleIdCounter = 1;
     }
 
