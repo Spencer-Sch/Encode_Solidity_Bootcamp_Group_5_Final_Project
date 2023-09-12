@@ -12,16 +12,6 @@ import './interfaces/IGroupFiveCollection.sol';
 // Contracts
 contract EncodeBattles {
     // Types
-    enum BattleState {
-        open,
-        closed,
-        completed
-    }
-
-    // struct BattleResult {
-    //     address winnerAddress;
-    //     address loserAddress;
-    // }
     enum BattleResult {
         undecided,
         player1Wins,
@@ -36,9 +26,7 @@ contract EncodeBattles {
 
     struct Battle {
         uint256 battleId;
-        BattleState state;
         uint256 timestamp_open;
-        uint256 timestamp_closed;
         uint256 timestamp_completed;
         address player1;
         address player2;
@@ -58,16 +46,13 @@ contract EncodeBattles {
     uint256 s_queueFirst = 1;
     uint256 s_queueLast = 0;
 
-    // BattleState.open => s_queueFirst => Battle struct (as a queue)
-    // BattleState.closed => battleId => Battle struct
-    // BattleState.completed => battleId => Battle struct
-    mapping(BattleState => mapping(uint256 => Battle)) internal s_battles;
+    // a queue structure | s_queueFirst => Battle
+    mapping(uint256 => Battle) internal s_openBattles;
 
     Battle[] public s_battleHistory;
 
     // Events
     event BattleOpened(address player1, uint256 timestamp);
-    event BattleClosed(address player1, address player2, uint256 timestamp);
     event BattleCompleted(
         uint256 battleId,
         address player1,
@@ -104,28 +89,18 @@ contract EncodeBattles {
         // assuming nft will be verified before submitting to this function
         bool reply = isOpenBattles();
         if (!reply) {
-            // no current open battles - create one
+            // no current open battles - create one - fill player1 portion
             openNewBattle(msg.sender, _tokenId, _tokenPower);
             return;
         }
-        // there is an open battle - join it
-        Battle memory closedBattle = fillOpenBattle(msg.sender, _tokenId, _tokenPower);
-        // Process the battle to decide the winner/loser
-        BattleResult result = calculateWinner(closedBattle);
-        // store the result
-        closedBattle.battleResult = result;
-        // set the remaining battle properties
-        Battle memory completedBattle = completeBattle(closedBattle);
-        // Add battle battleHistory
-        addToBattleHistory(completedBattle);
-        // Award winner/loser with rewards
-        sendRewards(completedBattle);
+        // there is an open battle
+        joinAndCompleteBattle(msg.sender, _tokenId, _tokenPower);
     }
 
     // public functions
     // internal functions
     function isOpenBattles() internal view returns (bool) {
-        uint256 length = _openBattleQueuelength();
+        uint256 length = _openBattlesQueuelength();
         if (length == 0) {
             return false;
         }
@@ -133,139 +108,134 @@ contract EncodeBattles {
     }
 
     function openNewBattle(address _player1, uint256 _tokenId, uint256 _tokenPower) internal {
-        Battle memory newBattle = Battle({
-            battleId: s_battleIdCounter,
-            state: BattleState.open,
-            timestamp_open: block.timestamp,
-            timestamp_closed: 0,
-            timestamp_completed: 0,
-            player1: _player1,
-            player2: address(0),
-            nft1Id: _tokenId,
-            nft2Id: 0,
-            nft1Power: _tokenPower,
-            nft2Power: 0,
-            battleResult: BattleResult.undecided,
-            battleRewards: BattleRewards(i_winnerRewardAmount, i_loserRewardAmount)
-        });
+        // create a new battle struct and populate initial properties
+        Battle memory newBattle;
+        newBattle.battleId = s_battleIdCounter;
+        newBattle.timestamp_open = block.timestamp;
+        newBattle.player1 = _player1;
+        newBattle.nft1Id = _tokenId;
+        newBattle.nft1Power = _tokenPower;
+        newBattle.battleRewards = BattleRewards(i_winnerRewardAmount, i_loserRewardAmount);
+
+        // increment battle id
         s_battleIdCounter += 1;
+
+        // add new battle to s_openBattles queue
         _enqueue(newBattle);
         emit BattleOpened(_player1, block.timestamp);
     }
 
-    function fillOpenBattle(
-        address _player2,
-        uint256 _tokenId,
-        uint256 _tokenPower
-    ) internal returns (Battle memory) {
+    function joinAndCompleteBattle(address _player2, uint256 _tokenId, uint _tokenPower) internal {
+        // move open battle out of queue
         Battle memory _battle = _dequeue();
-        // uint256 _battleId = _battle.battleId;
-        _battle.state = BattleState.closed;
-        _battle.timestamp_closed = block.timestamp;
+
+        // set player2 and final timestamp properties
         _battle.player2 = _player2;
         _battle.nft2Id = _tokenId;
         _battle.nft2Power = _tokenPower;
+        _battle.timestamp_completed = block.timestamp;
 
-        updateBattleStorage(_battle, BattleState.open, BattleState.closed);
-        emit BattleClosed(_battle.player1, _battle.player2, block.timestamp);
-        return _battle;
+        // Process the battle to decide the winner/loser
+        BattleResult result = calculateWinner(_battle.nft1Power, _battle.nft2Power);
+        _battle.battleResult = result;
+
+        // calculate rewards
+        (bool updateRewards, BattleRewards memory rewards) = calculateRewards(
+            _battle.battleResult
+        );
+        if (updateRewards) {
+            _battle.battleRewards = rewards;
+        }
+
+        // emit event
+        emit BattleCompleted(
+            _battle.battleId,
+            _battle.player1,
+            _battle.player2,
+            _battle.nft1Power,
+            _battle.nft2Power,
+            _battle.battleResult,
+            block.timestamp
+        );
+
+        // Award winner/loser with rewards
+        sendRewards(_battle.battleResult, _battle.player1, _battle.player2, _battle.battleRewards);
+
+        // Add battle battleHistory
+        addToBattleHistory(_battle);
     }
 
-    function calculateWinner(Battle memory _battle) internal pure returns (BattleResult) {
-        if (_battle.nft1Power == _battle.nft2Power) {
+    function calculateWinner(
+        uint256 _nft1Power,
+        uint256 _nft2Power
+    ) internal pure returns (BattleResult) {
+        if (_nft1Power == _nft2Power) {
             return BattleResult.tie;
         }
-        if (_battle.nft1Power > _battle.nft2Power) {
+        if (_nft1Power > _nft2Power) {
             return BattleResult.player1Wins;
         }
         return BattleResult.player2Wins;
-    }
-
-    function completeBattle(Battle memory _battle) internal returns (Battle memory) {
-        _battle.state = BattleState.completed;
-        _battle.timestamp_completed = block.timestamp;
-        Battle memory _battle_ = calculateRewards(_battle);
-        updateBattleStorage(_battle_, BattleState.closed, BattleState.completed);
-        emit BattleCompleted(
-            _battle_.battleId,
-            _battle_.player1,
-            _battle_.player2,
-            _battle_.nft1Power,
-            _battle_.nft2Power,
-            _battle_.battleResult,
-            block.timestamp
-        );
-        return _battle_;
     }
 
     function addToBattleHistory(Battle memory _battle) internal {
         s_battleHistory.push(_battle);
     }
 
-    function updateBattleStorage(
-        Battle memory _battle,
-        BattleState _prevState,
-        BattleState _newState
-    ) internal {
-        // if updating from closed to completed
-        // need to delete battle from closed mapping
-        if (_prevState == BattleState.closed) {
-            s_battles[_newState][_battle.battleId] = _battle;
-            delete s_battles[_prevState][_battle.battleId];
-            return;
-        }
-        // if updating from open to closed
-        // no need to delete battle from open mapping
-        // _dequeue takes care of that
-        s_battles[_newState][_battle.battleId] = _battle;
-    }
-
-    function calculateRewards(Battle memory _battle) internal view returns (Battle memory) {
+    function calculateRewards(
+        BattleResult _battleResult
+    ) internal view returns (bool, BattleRewards memory) {
+        BattleRewards memory _rewards;
         // check BattleResult
         // If tie - send both players half i_winnerRewardAmount
-        if (_battle.battleResult == BattleResult.tie) {
-            _battle.battleRewards.winnerReward = i_winnerRewardAmount / 2;
-            _battle.battleRewards.loserReward = i_winnerRewardAmount / 2;
-            return _battle;
+        if (_battleResult == BattleResult.tie) {
+            _rewards.winnerReward = i_winnerRewardAmount / 2;
+            _rewards.loserReward = i_winnerRewardAmount / 2;
+            return (true, _rewards);
         }
         // if still undecided
-        if (_battle.battleResult == BattleResult.undecided) {
+        if (_battleResult == BattleResult.undecided) {
             revert EncodeBattles__BattleStillUndecided();
         }
         // if player1Wins || player2Wins
-        return _battle;
+        // default rewards remain in Battle struct
+        return (false, _rewards);
     }
 
-    function sendRewards(Battle memory _battle) internal {
+    function sendRewards(
+        BattleResult _result,
+        address _player1,
+        address _player2,
+        BattleRewards memory _rewards
+    ) internal {
         address winner;
         address loser;
-        if (_battle.battleResult == BattleResult.player2Wins) {
-            winner = _battle.player2;
-            loser = _battle.player1;
+        if (_result == BattleResult.player2Wins) {
+            winner = _player2;
+            loser = _player1;
         } else {
-            winner = _battle.player1;
-            loser = _battle.player2;
+            winner = _player1;
+            loser = _player2;
         }
 
-        i_paymentToken.mint(winner, _battle.battleRewards.winnerReward);
-        i_paymentToken.mint(loser, _battle.battleRewards.loserReward);
+        i_paymentToken.mint(winner, _rewards.winnerReward);
+        i_paymentToken.mint(loser, _rewards.loserReward);
     }
 
     function _enqueue(Battle memory _battle) internal {
         s_queueLast += 1;
-        s_battles[BattleState.open][s_queueLast] = _battle;
+        s_openBattles[s_queueLast] = _battle;
     }
 
     function _dequeue() internal returns (Battle memory) {
-        Battle memory openBattle;
         require(s_queueLast >= s_queueFirst);
-        openBattle = s_battles[BattleState.open][s_queueFirst];
-        delete s_battles[BattleState.open][s_queueFirst];
+        Battle memory _battle = s_openBattles[s_queueFirst];
+        delete s_openBattles[s_queueFirst];
         s_queueFirst += 1;
-        return openBattle;
+        return _battle;
     }
 
-    function _openBattleQueuelength() internal view returns (uint256) {
+    function _openBattlesQueuelength() internal view returns (uint256) {
         return (s_queueLast - s_queueFirst) + 1;
     }
     // private functions
