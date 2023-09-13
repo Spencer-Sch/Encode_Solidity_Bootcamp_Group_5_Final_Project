@@ -14,10 +14,10 @@ const config = createConfig(
         chains: [sepolia, mainnet],
 
         // Required
-        appName: 'Final Project',
+        appName: 'Encode Battles',
 
         // Optional
-        appDescription: 'NFT Battle App',
+        appDescription: 'An NFT Battle App',
         appUrl: 'https://family.co', // your app's url
         appIcon: 'https://family.co/logo.png', // your app's logo,no bigger than 1024x1024px (max. 1MB)
     })
@@ -28,7 +28,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang="en">
             <WagmiConfig config={config}>
                 <ConnectKitProvider mode="dark">
-                    <body>
+                    <body
+                        style={{
+                            overflowX: 'hidden',
+                        }}
+                    >
                         <div
                             style={{
                                 display: 'flex',
@@ -38,7 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         >
                             <Navbar />
                             <div style={{ flexGrow: 1 }}>{children}</div>
-                            <Footer />
+                            {/* <Footer /> */}
                         </div>
                     </body>
                 </ConnectKitProvider>
