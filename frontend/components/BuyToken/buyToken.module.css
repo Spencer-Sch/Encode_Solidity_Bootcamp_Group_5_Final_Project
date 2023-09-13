@@ -31,7 +31,7 @@
     width: 25%;
 }
 
-.calculation {
+.form {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
