@@ -42,10 +42,9 @@ contract EncodeBattles {
     uint256 public immutable i_winnerRewardAmount;
     uint256 public immutable i_loserRewardAmount;
     IGroupFiveToken private immutable i_paymentToken;
-    // IGroupFiveCollection private immutable i_nftContract;
-    uint256 s_battleIdCounter;
-    uint256 s_queueFirst = 1;
-    uint256 s_queueLast = 0;
+    uint256 public s_battleIdCounter;
+    uint256 private s_queueFirst = 1;
+    uint256 private s_queueLast = 1;
 
     // a queue structure | s_queueFirst => Battle
     mapping(uint256 => Battle) internal s_openBattles;
