@@ -1,7 +1,7 @@
 import { Button, Input } from '@web3uikit/core'
 import appStateOptions from '@/constants/appStateOptions'
 import styles from './buyToken.module.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
     Chain,
     sepolia,
@@ -57,6 +57,7 @@ export default function BuyToken({ changeAppState, address, chain }: Props) {
         data: gftData,
         isError: gftBalanceError,
         isLoading: gftBalanceLoading,
+        refetch: refetchGFT,
     } = useBalance({
         address: address,
         token: process.env.NEXT_PUBLIC_GROUP_FIVE_TOKEN as `0x${string}`,
@@ -66,6 +67,7 @@ export default function BuyToken({ changeAppState, address, chain }: Props) {
         data: ethData,
         isError: ethBalanceError,
         isLoading: ethBalanceLoading,
+        refetch: refetchETH,
     } = useBalance({
         address: address,
     })
@@ -89,6 +91,11 @@ export default function BuyToken({ changeAppState, address, chain }: Props) {
     const { isLoading: awaitingTx, isSuccess } = useWaitForTransaction({
         hash: data?.hash,
     })
+
+    useEffect(() => {
+        refetchETH().catch((e) => console.log('refetchETH error: ', e))
+        refetchGFT().catch((e) => console.log('refetchGFT error: ', e))
+    }, [isSuccess])
 
     // console.log('awaitingTX: ', awaitingTX)
     // console.log('sendTransaction double banged: ', !!sendTransaction)
