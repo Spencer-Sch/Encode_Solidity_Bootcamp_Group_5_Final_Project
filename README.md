@@ -1,3 +1,92 @@
 # Encode Club Solidity Bootcamp - 2pm Cohort - Group 5
 
-## Final Project
+## Final Project: Encode Battles
+
+### Tech Stack:
+
+#### Backend
+
+- Solidity
+- Hardhat
+- Ethers.js
+- TypeScript
+- Chainlink VRF
+- Open Zeppelin
+- Pinata SDK
+- Alchemy SDK
+
+#### Frontend
+
+- Next.js
+- TypeScript
+- Web3UIKit
+- Alchemy SDK
+- Wagmi Hooks
+- Viem
+- RainbowKit
+
+### Description
+
+#### Purchase ERC20 & ERC721
+
+Users interact with the TokenSale contract to:
+
+- purchase our ERC20 token GFT with ETH
+- use GFT to mint ERC721 tokens
+
+#### NFT Power Levels
+
+There are 5 power levels of NFTs
+
+- Chainlink VRF is used to generate a random number
+- Each power level has a percent chance of being minted:
+  - Power 5: 5%
+  - Power 4: 10%
+  - Power 3: 15%
+  - Power 2: 20%
+  - Power 1: 50%
+
+#### NFT Images & Metadata
+
+Each level of NFT has a corresponding image & metadata object
+
+- NFT metadata is stored on IPFS
+- Each level of NFT has an image included in its metadata
+- These images are stored on IPFS and pinned by Pinata
+
+#### The Game
+
+Players asynchronously submit the power level of their NFT. Once two players have submitted power levels, the powers are compared and a winner is determined.
+
+Contract reads/writes are done via Wagmi Hooks.
+
+When users submit their NFT for battle:
+
+- NFT ownership is confirmed using the alchemy SDK
+- NFT metadata is fetched on the frontend using the alchemy SDK
+- NFT power, NFT id, and player address are submited to the battle contract
+- GFT is minted to both the winner and the loser in amounts that were passed to the game contract constructor at deployment
+- The battle info is stored in an array within the contract
+
+## How to use the project
+
+### 1. Set-up .env
+
+- copy/paste your existing `.env` or create a new `.env` in the root directory of both `backend` and `frontend`
+- Follow steps listed in `.env.example` in both the `backend` and `frontend` directories to add necessary environment variables to your `.env`
+
+### 2. Start up Next.js Frontend
+
+- Navigate to ./project_files/frontend/
+- Open a new terminal in the directory
+- run the following:
+
+```bash
+$ npm install
+```
+
+```bash
+$ npm run dev
+```
+
+- Open [http://localhost:3000](http://localhost:3000) with your browser
