@@ -8,7 +8,8 @@ import { useAccount, useNetwork } from 'wagmi'
 
 type Props = {
     appState: string
-    changeAppState: React.Dispatch<React.SetStateAction<string>>
+    changeAppState: (newState: string) => void
+    // changeAppState: React.Dispatch<React.SetStateAction<string>>
 }
 
 const HOME = appStateOptions.home

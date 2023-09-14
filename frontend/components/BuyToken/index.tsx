@@ -17,7 +17,7 @@ import * as tokenSaleJson from '@/assets/TokenSale.json'
 import { useDebounce } from '@/hooks/useDebounce'
 
 type Props = {
-    changeAppState: React.Dispatch<React.SetStateAction<string>>
+    changeAppState: (newState: string) => void
     address: `0x${string}` | undefined
     chain:
         | (Chain & {

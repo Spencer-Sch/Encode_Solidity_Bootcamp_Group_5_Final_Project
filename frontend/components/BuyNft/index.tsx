@@ -4,7 +4,7 @@ import appStateOptions from '@/constants/appStateOptions'
 import { useState } from 'react'
 import { Chain } from 'wagmi'
 type Props = {
-    changeAppState: React.Dispatch<React.SetStateAction<string>>
+    changeAppState: (newState: string) => void
     address: `0x${string}` | undefined
     chain:
         | (Chain & {

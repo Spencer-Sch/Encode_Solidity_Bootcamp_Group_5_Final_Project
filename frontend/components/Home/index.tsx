@@ -3,7 +3,7 @@ import styles from './home.module.css'
 import appStateOptions from '@/constants/appStateOptions'
 
 type Props = {
-    changeAppState: React.Dispatch<React.SetStateAction<string>>
+    changeAppState: (newState: string) => void
 }
 
 const HOME = appStateOptions.home
