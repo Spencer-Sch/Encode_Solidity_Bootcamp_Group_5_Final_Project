@@ -217,12 +217,12 @@ contract EncodeBattles {
     }
 
     function _enqueue(Battle memory _battle) internal {
-        s_queueLast += 1;
         s_openBattles[s_queueLast] = _battle;
+        s_queueLast += 1;
     }
 
     function _dequeue() internal returns (Battle memory) {
-        require(s_queueLast >= s_queueFirst);
+        require(s_queueLast > s_queueFirst);
         Battle memory _battle = s_openBattles[s_queueFirst];
         delete s_openBattles[s_queueFirst];
         s_queueFirst += 1;
@@ -230,7 +230,7 @@ contract EncodeBattles {
     }
 
     function _openBattlesQueuelength() internal view returns (uint256) {
-        return (s_queueLast - s_queueFirst) + 1;
+        return s_queueLast - s_queueFirst;
     }
     // private functions
 }
