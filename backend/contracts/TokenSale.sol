@@ -31,12 +31,12 @@ contract TokenSale is Ownable {
         i_nftContract = IGroupFiveCollection(_nftContract); // this makes i_nftContract an interface
     }
 
-    function buyTokens() external payable {
+    function buyTokens() public payable {
         uint256 amountToBeMinted = msg.value * s_ratio;
         i_paymentToken.mint(msg.sender, amountToBeMinted); // in GroupFiveToken msg.sender will be the TokenSale contract itself
     }
 
-    function withdraw() external onlyOwner {
+    function withdraw() public onlyOwner {
         // specifically for ETH in contract
         uint256 amount = address(this).balance;
         (bool success, ) = payable(msg.sender).call{value: amount}('');
@@ -67,7 +67,7 @@ contract TokenSale is Ownable {
     //     }
     // }
 
-    function mintNft() external {
+    function mintNft() public {
         // QUESTION: burn spent GFT?
         // Approve TokenSale contract to transfer GFT as payment for nft
         bool approveSuccess = _approveForGFT(msg.sender, address(this), s_nftPrice);
