@@ -79,7 +79,7 @@ contract EncodeBattles {
     // Receive function
     // fallback function
     // external functions
-    function submitForBattle(uint256 _tokenId, uint256 _tokenPower) external {
+    function submitForBattle(uint256 _tokenId, uint256 _tokenPower) public {
         // assuming nft will be verified before submitting to this function
         bool reply = isOpenBattles();
         if (!reply) {
