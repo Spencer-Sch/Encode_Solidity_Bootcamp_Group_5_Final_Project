@@ -73,7 +73,6 @@ contract EncodeBattles {
         i_winnerRewardAmount = _winnerRewardAmount;
         i_loserRewardAmount = _loserRewardAmount;
         i_paymentToken = IGroupFiveToken(_paymentToken);
-        // i_nftContract = IGroupFiveCollection(_nftContract);
         s_battleIdCounter = 1;
     }
 
