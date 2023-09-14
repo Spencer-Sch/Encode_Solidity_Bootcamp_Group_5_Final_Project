@@ -11,6 +11,7 @@
 - Ethers.js
 - TypeScript
 - Chainlink VRF
+- IPFS
 - Open Zeppelin
 - Pinata SDK
 - Alchemy SDK
