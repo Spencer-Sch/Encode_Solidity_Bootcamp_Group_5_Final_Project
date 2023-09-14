@@ -155,7 +155,7 @@ contract EncodeBattles {
         // Award winner/loser with rewards
         sendRewards(_battle.battleResult, _battle.player1, _battle.player2, _battle.battleRewards);
 
-        // Add battle battleHistory
+        // Add battle to battleHistory
         addToBattleHistory(_battle);
     }
 
