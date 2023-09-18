@@ -2,6 +2,14 @@
 
 ## Final Project: Encode Battles
 
+### Class Presentation
+
+<a href="https://www.youtube.com/watch?v=5CVLDfDvQ0I&t=1935s">
+<img src="./backend/images/youtube-thumbnail.png" width="500px" alt="candide marketplace tour" />
+</a>
+<br>
+Start at 32:15
+
 ### Tech Stack:
 
 #### Backend
@@ -35,6 +43,19 @@ Users interact with the TokenSale contract to:
 - purchase our ERC20 token GFT with ETH
 - use GFT to mint ERC721 tokens
 
+[Contract Diagram Here](https://www.canva.com/design/DAFu1BL-Ifo/yfL_bk1-St-KVU8jynai1A/edit?utm_content=DAFu1BL-Ifo&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+#### Deployed Contracts
+
+[ERC20 Contract](https://sepolia.etherscan.io/address/0xAa3ac6a564754Dd401c3c02117fb04F76073cf39)
+<br>
+[ERC721 Contract](https://sepolia.etherscan.io/address/0x598B3afe31CcA5aa00238A176f1C28Dc44ed3d87)
+<br>
+[TokenSale Contract](https://sepolia.etherscan.io/address/0x8Cb98E146133DA743E0BefA8F11Cf01015867bC4)
+<br>
+[EncodeBattles Contract](https://sepolia.etherscan.io/address/0x3446014D7ca1f1D937CFEdc8a4bE61f2fB44A7D4)
+<br>
+
 #### NFT Power Levels
 
 There are 5 power levels of NFTs
@@ -55,6 +76,16 @@ Each level of NFT has a corresponding image & metadata object
 - Each level of NFT has an image included in its metadata
 - These images are stored on IPFS and pinned by Pinata
 
+<img src="./backend/images/encodeBattle/scarecrow.png" width="150" height="150" />
+<img src="./backend/images/encodeBattle/squire.png" width="150" height="150" />
+<img src="./backend/images/encodeBattle/knight.png" width="150" height="150" />
+<br>
+<img src="./backend/images/encodeBattle/werewolf.png" width="150" height="150" />
+<img src="./backend/images/encodeBattle/dragon.png" width="150" height="150" />
+<br>
+
+[View NFT Colection Here](https://testnets.opensea.io/collection/groupfivecollection-2)
+
 #### The Game
 
 Players asynchronously submit the power level of their NFT. Once two players have submitted power levels, the powers are compared and a winner is determined.
@@ -71,16 +102,22 @@ When users submit their NFT for battle:
 
 ## How to use the project
 
-### 1. Set-up .env
+### 1. Clone the repo
 
-- copy/paste your existing `.env` or create a new `.env` in the root directory of both `backend` and `frontend`
+```bash
+$ git clone https://github.com/Spencer-Sch/Encode_Solidity_Bootcamp_Group_5_Final_Project.git
+```
+
+### 2. Set-up .env
+
+- Create a new `.env` in the root directory of both `backend` and `frontend`
 - Follow steps listed in `.env.example` in both the `backend` and `frontend` directories to add necessary environment variables to your `.env`
 
-### 2. Start up Next.js Frontend
+### 3. Start up Next.js Frontend
 
 - Navigate to ./project_files/frontend/
 - Open a new terminal in the directory
-- run the following:
+- Run the following:
 
 ```bash
 $ npm install
