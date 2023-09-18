@@ -77,22 +77,21 @@ Each level of NFT has a corresponding image & metadata object
 - These images are stored on IPFS and pinned by Pinata
 
 <p align="left">
-<img align="left" src="./backend/images/encodeBattle/scarecrow.png" width="150" height="150" />
-<img align="left" src="./backend/images/encodeBattle/squire.png" width="150" height="150" />
-<img align="left" src="./backend/images/encodeBattle/knight.png" width="150" height="150" />
-<img align="left" src="./backend/images/encodeBattle/werewolf.png" width="150" height="150" />
-<img align="left" src="./backend/images/encodeBattle/dragon.png" width="150" height="150" />
+<img src="./backend/images/encodeBattle/scarecrow.png" width="150" height="150" />
+<img src="./backend/images/encodeBattle/squire.png" width="150" height="150" />
+<img src="./backend/images/encodeBattle/knight.png" width="150" height="150" />
+<img src="./backend/images/encodeBattle/werewolf.png" width="150" height="150" />
+<img src="./backend/images/encodeBattle/dragon.png" width="150" height="150" />
 </p>
-
-<br>
-<br>
 <br>
 
-[View NFT Colection Here](https://testnets.opensea.io/collection/groupfivecollection-2)
+#### [View NFT Collection Here](https://testnets.opensea.io/collection/groupfivecollection-2)
 
 #### The Game
 
+<p>
 Players asynchronously submit the power level of their NFT. Once two players have submitted power levels, the powers are compared and a winner is determined.
+</p>
 
 Contract reads/writes are done via Wagmi Hooks.
 
