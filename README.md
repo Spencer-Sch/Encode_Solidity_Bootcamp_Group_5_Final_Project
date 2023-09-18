@@ -81,6 +81,7 @@ Each level of NFT has a corresponding image & metadata object
 <img align="left" src="./backend/images/encodeBattle/knight.png" width="150" height="150" />
 <img align="left" src="./backend/images/encodeBattle/werewolf.png" width="150" height="150" />
 <img align="left" src="./backend/images/encodeBattle/dragon.png" width="150" height="150" />
+
 <br>
 <br>
 <br>
