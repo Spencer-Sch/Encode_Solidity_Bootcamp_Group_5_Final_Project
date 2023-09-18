@@ -79,9 +79,10 @@ Each level of NFT has a corresponding image & metadata object
 <img align="left" src="./backend/images/encodeBattle/scarecrow.png" width="150" height="150" />
 <img align="left" src="./backend/images/encodeBattle/squire.png" width="150" height="150" />
 <img align="left" src="./backend/images/encodeBattle/knight.png" width="150" height="150" />
-<br>
 <img align="left" src="./backend/images/encodeBattle/werewolf.png" width="150" height="150" />
 <img align="left" src="./backend/images/encodeBattle/dragon.png" width="150" height="150" />
+<br>
+<br>
 <br>
 
 [View NFT Colection Here](https://testnets.opensea.io/collection/groupfivecollection-2)
