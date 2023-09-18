@@ -76,11 +76,13 @@ Each level of NFT has a corresponding image & metadata object
 - Each level of NFT has an image included in its metadata
 - These images are stored on IPFS and pinned by Pinata
 
+<p align="left">
 <img align="left" src="./backend/images/encodeBattle/scarecrow.png" width="150" height="150" />
 <img align="left" src="./backend/images/encodeBattle/squire.png" width="150" height="150" />
 <img align="left" src="./backend/images/encodeBattle/knight.png" width="150" height="150" />
 <img align="left" src="./backend/images/encodeBattle/werewolf.png" width="150" height="150" />
 <img align="left" src="./backend/images/encodeBattle/dragon.png" width="150" height="150" />
+</p>
 
 <br>
 <br>
