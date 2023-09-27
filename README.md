@@ -2,13 +2,12 @@
 
 ## Final Project: Encode Battles
 
-### Class Presentation
+### Project Demonstration
 
-<a href="https://www.youtube.com/watch?v=5CVLDfDvQ0I&t=1935s">
+<a href="https://www.youtube.com/watch?v=RKoeJ07O8MQ">
 <img src="./backend/images/youtube-thumbnail.png" width="500px" alt="candide marketplace tour" />
 </a>
 <br>
-Start at 32:15
 
 ### Tech Stack:
 
